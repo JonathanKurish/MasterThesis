@@ -1,0 +1,79 @@
+README
+
+
+
+
+REQUIRES
+python 3.0
+Keras with Tensorflow backend
+
+INCLUDES:
+Code for training and testing the model
+Code for creating the dataset
+
+To train the model specify the parameters in a bash script. An example is shown below:
+__________________________________
+#!/bin/bash
+#SBATCH --job-name=example
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --time=10-00:00:00
+
+python modules/train_phase.py \
+dataset_name=ucf101 \
+data_specifier=full1 \
+network_type=temporal \
+depth=50 \
+savefile_name=training_example \
+jumps=False \
+flow_stack=uuvv \
+batch_size=256 \
+optimizer=sgd \
+channels=20 \
+reload_weights=False \
+initial_weights=none \
+initial_learning_rate=0.01 \
+activation_function=relu \
+augment_data=False \
+scale_weights_on_input=False \
+dropout=0.5 \
+sec1_frame=False \
+pooling=average \
+num_classes=101 \
+rename_dense=False
+__________________________________
+
+
+
+To test the model specify the training parameters to use. An example is shown below:
+__________________________________
+#!/bin/bash
+#SBATCH --job-name=test_example
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --time=10-00:00:00
+
+python modules/test_phase.py training_filename
+__________________________________
+
+
+
+
+FOLDER STRUCTURE
+model
+	create_b3sd		#Folder containing files to create B3SD, details in create_b3sd/B3SD_main.py
+	modules			#Folder containing files to train and test model
+	h5_weights		#Folder containing model weights
+	result_files	#Folder containing training results
+	test_results 	#Folder containing test results
+	ucf101			#Folder to place ucf101 data in
+	b3sd			#Folder to place b3sd data in
+	ucf101_splits	#Folder containing splits of ucf101
+	b3sd_splits		#Folder containing splits of b3sd
+	example.sh		#Script to run, see above example
+
+
+	
+
+
+
